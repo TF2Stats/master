@@ -1,0 +1,65 @@
+			<script type="text/javascript">
+			$(document).ready(function () {			
+				$('#playersearch').autocomplete(
+				{
+				  source: '/ajax/player_autocomplete.php',
+				  width: 300,
+				  max: 10,
+				  delay: 100,
+				  cacheLength: 1,
+				  scroll: false,
+				  highlight: false
+				});
+			});
+			</script>
+			
+			<div class="panel round5" style="width: 422px;">
+				<h1>Popular profiles</h1>
+				<hr />
+				<table class="listtable"> 
+					<tr>
+						<th width="20">##</th> 
+						<th>Name</th>
+					</tr>
+					{loop $players.views.views}
+					<tr class="arealink"> 
+						<td>{counter}</td>
+						<td><a href="/player/{if $custom_url}{$custom_url}{else}{$id64}{/if}/" class="main">{$name|htmlspecialchars}</a></td>
+					</tr>
+					{/loop}
+				</table>	
+			</div>
+			
+			<div class="panelspacer"></div>
+			
+			<div class="panel round5" style="width: 422px;">
+				<h1>Popular today</h1>
+				<hr />
+				<table class="listtable"> 
+					<tr>
+						<th width="20">##</th> 
+						<th>Name</th>
+					</tr>
+					<!-- {counter start=0} -->
+					{loop $players.views.views_today}
+					<tr class="arealink"> 
+						<td>{counter}</td>
+						<td><a href="/player/{if $custom_url}{$custom_url}{else}{$id64}{/if}/" class="main">{$name|htmlspecialchars}</a></td>
+					</tr>
+					{/loop}
+				</table>	
+			</div>
+			
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			
+			<div class="panel round5" style="width: 885px;">
+				<h1>Player Search</h1>
+				<hr />
+				<p>Looking for a certain player? Search by name or friend ID</p>
+				<br />
+				<form action="/players/"> 
+					<input type="text" name="search" id="playersearch"> <input type="submit" name="Search" value="Search"/>
+				</form>
+			</div>

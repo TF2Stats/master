@@ -1,0 +1,89 @@
+			<div class="panel round5" style="width: 885px;"> 
+				<h1>{$index.title}</h1>
+				<hr />
+				<div id="wppost">
+				{$index.post}
+				</div>
+				<br />
+				<span class="grey">Read more at the <a href="/blog/">TF2Stats blog</a>.</span>
+			</div>
+		
+			
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			
+			<script type="text/javascript">
+			$(document).ready(function () {			
+				$('#serversearch').autocomplete(
+				{
+				  source: '/ajax/server_autocomplete.php',
+				  width: 300,
+				  max: 10,
+				  delay: 100,
+				  cacheLength: 1,
+				  scroll: false,
+				  highlight: false
+				});		
+				$('#playersearch').autocomplete(
+				{
+				  source: '/ajax/player_autocomplete.php',
+				  width: 300,
+				  max: 10,
+				  delay: 100,
+				  cacheLength: 1,
+				  scroll: false,
+				  highlight: false
+				});
+				$('#mapsearch').autocomplete(
+						{
+						  source: '/ajax/map_autocomplete.php',
+						  width: 300,
+						  max: 10,
+						  delay: 100,
+						  cacheLength: 1,
+						  minLength: 6,
+						  scroll: false,
+						  highlight: false
+						});
+			});
+			</script>
+			
+			<div class="panel round5" style="width: 268px;">
+				<h1>Map Search</h1>
+				<hr />
+				<p>Looking for a specific map? Search by name</p>
+				<br />
+				<form action="/map_search/"> 
+						<input type="text" name="search" id="mapsearch"/> <input type="submit" value="Search" />
+				</form>
+			</div>
+			
+			<div class="panelspacer"></div>
+			
+			
+			<div class="panel round5" style="width: 268px;">
+				<h1>Server Search</h1>
+				<hr />
+				<p>Looking for a certain server? Search by server name or IP</p>
+				<br />
+				<form action="/server_search/"> 
+					<input type="text" name="search" id="serversearch"/> <input type="submit" name="Search"  value="Search"/>
+				</form>
+			</div>
+			
+			<div class="panelspacer"></div>
+			
+			<div class="panel round5" style="width: 268px;">
+				<h1>Player Search</h1>
+				<hr />
+				<p>Looking for a certain player? Search by name or friend ID</p>
+				<br />
+				<form action="/players/"> 
+					<input type="text" name="search" id="playersearch"> <input type="submit" name="Search" value="Search"/>
+				</form>
+			</div>
+			
+			
+			
+			

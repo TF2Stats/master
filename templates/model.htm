@@ -1,0 +1,40 @@
+			
+			<div class="panel round5" style="width: 885px;"> 
+				<h1>Item model viewer</h1>
+				<hr />
+				<p>Want to see what your favorite item looks like in 3d? Well now you know.</p>
+				<br />
+
+				<canvas id="mview" style="width: 885px; height: 664px">
+
+				</canvas>
+				<br />
+				<span class="grey">Note: Requires an HTML5 compatible browser such as Firefox or Chrome, with WebGL enabled.
+				This feature is a work in progress, some models may not render correctly, or may be drawn outside of the camera
+				view.</span>
+				<div class="clear" id="theLoggingDiv">
+				
+				</div>
+			</div>
+			<script type="text/javascript" src="/static/js/scenejs.js"></script>
+			<script type="text/javascript" src="/static/js/binaryfile.js"></script>
+			<script type="text/javascript" src="/static/js/modelview.js"></script>
+			<script type="text/javascript">
+			var model_id = '{$model.model_id}';
+			{literal}
+			$.getJSON('/ajax/scene_mdl.php?data=textures&id='+model_id, function(json) {
+				//var bits = json['textures'][0]['name'].split('/');
+				var item_texture = json['textures'][0]['name_fixed'];
+				x=0
+				while(!item_texture && x<10 && x < json['textures'].length)
+					item_texture = json['textures'][x++]['name_fixed'];
+
+				item_texture = item_texture;
+
+				console.log(json['bones']);
+
+				InitSceneJS(item_texture, model_id, json['bone']);
+
+			});
+			{/literal}
+			</script>

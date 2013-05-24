@@ -1,0 +1,87 @@
+				<div class="panel round5" style="width: 885px;">
+				<div class="right">
+					
+					<form action="./">
+						<label for="sort">Sort by:</label>
+						<select name="sort" onchange="$(this).closest('form').submit();">
+							<option value="owned" {$hats.sort.owned}>% owned</option>
+							<option value="equipped" {$hats.sort.equipped}>% equipped</option>
+							<option value="own_equip" {$hats.sort.own_equip}>% owners equip</option>
+						</select>
+					</form> 
+				</div>
+				<h1>Hat statistics</h1>
+				<hr />
+				<div class="right">
+					<!-- AddThis Button BEGIN -->
+					<div class="addthis_toolbox addthis_default_style ">
+					<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+					<a class="addthis_button_tweet"></a>
+					<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+					</div>
+					<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e849e197372b152"></script>
+					<!-- AddThis Button END -->
+				</div>
+				<p>General statistics on hats. For more information on an individual hat, click on its image. You can also use your browser's built in search to find a specific hat quickly.</p>
+				<div class="clear"></div>
+				<div class="items">
+					<div class="hsspacer"></div>
+					<div class="hsheader">
+						<div class="hat_wide">Ownership statistics</div>
+						<div>Class distribution</div>
+					</div>
+					{loop $hats.hats}
+					<div>
+						<div class="item tooltip round5">
+							<a href="/item/{$name_url}/{$defindex}/">
+								<img src="/static/images/items/sized/xy78/{$image}" width="78" height="78" alt="{$name}" title="{$tooltip|htmlspecialchars}"/>
+								<span class="itemname">{$name}</span>
+							</a>
+						</div>
+						<div class="hatstats"> 
+							<!-- Equipped stats -->
+							<div class="hbars round5 hat_wide">
+								<div>
+									<div class="barh20 round3" style="width: {$owned*500}px;"></div>
+									<span>{if $owned*100|round:2 > 0}{$owned*100|round:2}%{else}{if $owned > 0}&lt;0.01%{else}0%{/if}{/if} Own</span>
+								</div>
+								<div>
+									<div class="barh20 round3" style="width: {$equipped*500}px;"></div>
+									<span>{if $equipped*100|round:2 > 0}{$equipped*100|round:2}%{else}{if $equipped > 0}&lt;0.01%{else}0%{/if}{/if} Equip</span>
+								</div>
+								<div>
+									<div class="barh20 round3" style="width: {$owned_equipped*500}px;"></div>
+									<span>{if $owned_equipped*100|round:2 > 0}{$owned_equipped*100|round:2}%{else}{if $owned_equipped > 0}&lt;0.01%{else}0%{/if}{/if} Owners equip</span>
+								</div>
+							</div>
+
+							<!-- Classes -->
+							<div  class="vbars round5">
+							{loop $classes}
+								{if $num > 0 }
+								<div>
+									<div class="barv20 round3" style="height: {$num*72}px;">
+										<div class="cis-{$class}"></div>
+										<span class="vertical vbgap">{if $num*100|round:1 > 0}{$num*100|round:1}%{else}&lt;0.1%{/if}</span>
+									</div>
+									
+								</div>
+								{else}
+								<div class="spacerv20">
+								</div>
+								{/if}
+							{/loop}
+							</div>
+						</div>
+						
+
+					</div>
+					<div class="clear"></div>
+					{/loop}
+					<div class="clear"></div>
+					
+					<p class="panelnote">Item stats sampled from {$hats.profiles} profiles on {date_format $hats.time "%m-%d-%y at %l:%M%P"}. While
+					this data sample does not cover the entire tf2 community, its random collection nature and large pool
+					should make it more or less representitive of the community as a whole.</p>
+					</div>
+				</div>

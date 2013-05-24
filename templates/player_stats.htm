@@ -1,0 +1,201 @@
+			<script type="text/javascript"> 
+			$(document).ready(function () {
+				var api = $("#itemscroller").data("scrollable");
+				$("#itempage").html((1+api.getIndex()) + "/" + api.getItems().size());
+				api.onSeek(function() {
+					$("#itempage").html((1+this.getIndex()) + "/" + this.getItems().size());
+				});
+				if($.Storage.get("itemDisplay") == "full")
+					items_showall();
+
+			});
+			function toggle_class(name)
+			{
+				var foo = $("#"+name+"-morestats");
+				foo.toggle();
+				if(foo.is(":visible"))
+					$("#"+name+"-button").html("-");
+				else
+					$("#"+name+"-button").html("+");	
+				
+			}			
+			function items_showall()
+			{
+				var api = $("#itemscroller").data("scrollable");
+				api.seekTo(0);
+				$(".itemcontainer").css('clear','both');
+				$("#itemscroller > div > div").css('float','none');
+				$("#itemscroller").css('height',(440*api.getItems().size()) + 'px');
+				$("#minimal_buttons").hide();
+				$("#full_buttons").show();
+				$.Storage.set("itemDisplay", "full");
+			}
+			function items_showscroll()
+			{
+				var api = $("#itemscroller").data("scrollable");
+				api.seekTo(0);
+				$(".itemcontainer").css('clear','none');
+				$("#itemscroller > div > div").css('float','left');
+				$("#itemscroller").css('height','440px');
+				$("#minimal_buttons").show();
+				$("#full_buttons").hide();
+				$.Storage.set("itemDisplay", "mini");
+			}
+			</script>
+			
+			<div class="panel round5" style="width: 885px;">
+				<div class="right">
+					<!-- AddThis Button BEGIN -->
+					<div class="addthis_toolbox addthis_default_style ">
+						<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+						<a class="addthis_button_tweet"></a>
+						<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+					</div>
+					<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e849e197372b152"></script>
+					<!-- AddThis Button END -->
+				</div> 
+				<h1>{if $player_stats.valve_employee == 1}<img src="/static/images/valve.png" class="valve_employee" alt="Valve Employee" width="59" height="16">{/if}{$player_stats.player_name}</h1>
+				<hr />
+				<div class="useravatar_full round3 left psaspacer"><a href="http://steamcommunity.com/{if $player_stats.player->info.custom_url}id/{$player_stats.player->info.custom_url}{else}profiles/{$player_stats.player->info.id64}{/if}"><img src="{$player_stats.player->info.avatar_full}" alt="avatar" /></a></div>
+				<table class="pstable" style="width: 680px;"> 
+					<tr> 
+						<th width="300">&nbsp;</th>
+						<th class="num" width="20">&nbsp;</th>
+						<th class="num" width="65">Best</th>
+						<th class="num">Avg/hr</th>
+						<th class="num">Total</th>
+					</tr>
+					{foreach from=$player_stats.metrics key=metric item=label}
+						{if $label}
+							<tr> 
+								<td class="header">{$label}</td>
+								<td class="num"><div class="cis-{$player_stats.stats.all.max.$metric.class}"></div></td>
+								<td class="num">{$player_stats.stats.all.max.$metric.value}</td>
+								<td class="num">{if $player_stats.stats.all.accum.iplaytime}{math "round((a/b)*60*60,1)" a=$player_stats.stats.all.accum.$metric b=$player_stats.stats.all.accum.iplaytime}{else}0{/if}</td>
+								<td class="num">{$player_stats.stats.all.accum.$metric}</td>
+							</tr>
+						{/if}
+					{/foreach}
+				</table>
+			</div>
+			
+			{foreach from=$player_stats.classes item=class}
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			
+			<div class="panel round5" style="width: 885px;"> 
+				<div class="relative">
+					<div class="arealink classtoggle round3" ><a class="main" onclick="toggle_class('{$class}');" id="{$class}-button">+</a></div>
+				</div>
+				<div class="sci"><div class="sci_{$class}_{cycle values="blu,red"}"><h1>{$class}</h1></div></div>
+				<hr>
+				<div class="items"> 
+					<div class="pministats"> 
+						<div class="hbars round5">
+							<div>
+								<div class="barh20 round3" style="width: {if $player_stats.stats.all.best.iplaytime}{math "(a/b)*134" a=$player_stats.stats.$class.accum.iplaytime b=$player_stats.stats.all.best.iplaytime}{else}0{/if}px;"></div>
+								<span>{math "round(a/60/60,1)" a=$player_stats.stats.$class.accum.iplaytime} hours played</span>
+							</div>
+							<div>
+								<div class="barh20 round3" style="width: {if $player_stats.stats.all.best.inumberofkills}{math "(a/b)*134" a=$player_stats.stats.$class.accum.inumberofkills b=$player_stats.stats.all.best.inumberofkills}{else}0{/if}px;"></div>
+								<span>{$player_stats.stats.$class.accum.inumberofkills} kills</span>
+							</div>
+							<div>
+								<div class="barh20 round3" style="width: {if $player_stats.stats.all.best.ipointsscored}{math "(a/b)*134" a=$player_stats.stats.$class.accum.ipointsscored b=$player_stats.stats.all.best.ipointsscored}{else}0{/if}px;"></div>
+								<span>{$player_stats.stats.$class.accum.ipointsscored} points</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="right items"> 
+					{foreach $player_stats.slots.$class item=slot}
+						{if $player_stats.equipped.$class.$slot.name}
+							{if $player_stats.equipped.$class.$slot.tooltip != null}
+								{assign $player_stats.equipped.$class.$slot.tooltip "tooltip"}
+							{/if}
+							<div class="item tooltip round5">
+								{if $player_stats.equipped.$class.$slot.quantity > 1}
+									<div class="itemnote itemquantity round3">{$player_stats.equipped.$class.$slot.quantity}</div>
+								{/if}
+								<a href="/item/{$player_stats.equipped.$class.$slot.name_url}/{$player_stats.equipped.$class.$slot.defindex}/">
+									<img src="/static/images/items/sized/xy78/{$player_stats.equipped.$class.$slot.image}" alt="{$player_stats.equipped.$class.$slot.name}" title="{$tooltip|escape}"/>
+								</a>
+							</div>
+						{else}
+							<div class="item round5"></div>
+						{/if}
+					{/foreach}
+				</div>
+				<div class="clear"></div>
+				<hr style="margin-top: 0px;">
+				
+				<div id="{$class}-morestats" class="hidden">
+					<table class="pstable" style="width: 680px; margin-left: 200px;"> 
+						<tr> 
+							<th width="300">&nbsp;</th>
+							<th class="num" width="65">Best</th>
+							<th class="num">Avg/hr</th>
+							<th class="num">Total</th>
+						</tr>
+						{foreach from=$player_stats.metrics key=metric item=label}
+							{if $label}
+								<tr> 
+									<td class="header">{$label}</td>
+									<td class="num">{$player_stats.stats.$class.max.$metric}</td>
+									<td class="num">{if $player_stats.stats.$class.accum.iplaytime}{math "round((a/b)*60*60,1)" a=$player_stats.stats.$class.accum.$metric b=$player_stats.stats.$class.accum.iplaytime}{else}0{/if}</td>
+									<td class="num">{$player_stats.stats.$class.accum.$metric}</td>
+								</tr>
+							{/if}
+						{/foreach}
+					</table>
+				</div>
+			</div>
+			{/foreach}
+			
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			
+			<div class="panel round5" style="width: 885px;">
+				<h1>Items</h1>
+				<hr>
+				<div class="scrollable" id="itemscroller"> 
+					<div class="items">
+					{loop $player_stats.bpp}
+						<div class="itemcontainer">
+						{loop $items}
+							{if $name}
+								<div class="item tooltip round5">
+									{if $equipped}
+										<div class="itemnote equipped round3">Equipped</div>
+									{/if}
+									{if $quantity > 1}
+										<div class="itemnote itemquantity round3">{$quantity}</div>
+									{elseif $crate_series > 0}
+										<div class="itemnote itemquantity round3">#{$crate_series}</div>
+									{/if}
+									<a href="/item/{$name_url}/{$defindex}/">
+										<img src="/static/images/items/sized/xy78/{$image}" alt="{$name}" title="{$tooltip|htmlspecialchars}"/>
+									</a>
+								</div>
+							{else}
+								<div class="item round5"></div>
+							{/if}
+						{/loop}
+						</div>
+					{/loop}
+					</div>
+				</div>
+				<div class="right">
+					<div id="minimal_buttons">
+						<div class="tf2btn arealink round5" onclick="items_showall();">All</div> 
+						<div class="tf2btn arealink round5 prev browse left">&lt;</div> 
+						<span class="scrollposition left" id="itempage">1/4</span>
+						<div class="tf2btn arealink round5 next browse right">&gt;</div>
+					</div>
+					<div id="full_buttons" class="hidden">
+						<div class="tf2btn arealink round5" onclick="items_showscroll();">Paged</div> 
+					</div>
+				</div>
+			</div>

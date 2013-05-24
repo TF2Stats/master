@@ -1,0 +1,18 @@
+			<div class="panel round5" style="width: 885px;"> 
+				<h1>Search Results</h1>
+				<hr />
+				<table class="listtable"> 
+					<tr>
+						<th>Name</th>
+						<th>Map</th>
+						<th>Players</th>
+					</tr>
+					{loop $server_search.list}
+					<tr class="arealink">
+						<td><a href="{$link}" class="main">{$label}</a></td>
+						<td>{$map_name}</td>
+						<td>{$player_label}</td>			
+					</tr>
+					{/loop}
+				</table>
+			</div>

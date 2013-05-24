@@ -1,0 +1,14 @@
+				<div class="panel round5" style="width: 885px;">
+				<h1>All Items</h1>
+				<hr />
+
+				<div class="items">
+				{loop $all_items.items}
+					<div class="item tooltip round5">
+						<a href="/item/{$name_url}/{$defindex}/">
+							<img src="/static/images/items/sized/xy78/{$image}" width="78" height="78" alt="{$name}" title="{$tooltip|htmlspecialchars}"/>
+						</a>
+					</div>
+				{/loop}
+				</div>
+				</div>

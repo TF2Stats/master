@@ -1,0 +1,89 @@
+			<div class="panel round5" style="width: 605px;"> 
+				<h1>Editing {$manage_map.map_info.name}</h1>
+				<hr />
+				<h2>Basic information</h2>
+				{if $manage_map.old}
+				<p><i>
+					Last edit on {date_format $manage_map.map_info.edit_time "%m/%d/%y %l:%M%P"} by {$manage_map.map_info.player_name}
+				</i></p><br />
+				{/if}
+				{if $manage_map.error}
+				<div class="error form_error"> 
+					{$manage_map.error}
+				</div>
+				{/if}
+				<form action="/manage_map/{$manage_map.map_info.name}/" method="post" class="cleanform"> 
+				{if $manage_map.can_set_official}
+					<label for="official">Is Official</label>
+					<input type="checkbox" name="official" value="official"{if $manage_map.map_info.official} checked="yes"{/if} />
+				{/if}
+					
+					<label for="filesize">Total File size
+					<span class="small">MB, uncompressed</span></label>				
+					<input type="text" name="filesize" value="{$manage_map.map_info.file_size}"/>
+
+					<label for="url">Download URL</label>
+					<input type="text" name="url" value="{$manage_map.map_info.download_url}" />
+		
+					<label for="description">Description <span class="small">BBCode: Yes<br />HTML: No</span></label>
+					<textarea name="description" class="tinymce" rows="8">{$manage_map.map_info.description}</textarea>
+					
+					
+					<label for="update">Submit changes</label>
+					<input type="submit" name="update" value="Update"/>
+				</form>
+				<div class="clear"></div>
+				<h2>Screenshots</h2>
+				{if $manage_map.has_images}
+				{loop $manage_map.images}
+				<div class="popmapbox arealink">
+					<div class="round3"> 
+						<img src="{$image}" alt="" />
+						<div><a href="{$link}" class="main">{$uploader}</a>  [ <a href="{$del_link}" onclick="if(confirm('Really delete this image?')) { return true; } else { return false; }">DEL</a> ]</div>
+					</div>
+				</div>
+				{/loop}
+				{else}
+				<p>This map has no images. You can use the link on the right to upload some.</p>
+				{/if}
+				
+				
+			</div>
+			
+			<div class="panelspacer"></div>
+			
+			<div class="panel round5" style="width: 240px;"> 
+				<h1>Toolbox</h1>
+				<div>
+					<hr />
+					<ul> 
+						<li><a href="/manage_map/{$manage_map.map_info.name}/upload/">Upload a screenshot</a></li>
+						<li><a href="/manage_map/{$manage_map.map_info.name}/addauthor/">Add author</a></li>
+						<!--  <li><a href="/manage_map/{$manage_map.map_info.name}/revert/">Delete this revision</a></li>  -->
+					</ul>
+					 
+				</div>
+			</div>
+			
+			<div class="panelspacer"></div>
+			
+			<div class="panel round5 panelspacer_top" style="width: 240px;"> 
+				<h1>Authors</h1>
+				<div>
+					<hr />
+					<table class="listtable"> 
+						<tr> 
+							<th>TP</th>
+							<th>Name</th>
+						</tr>
+						{loop $manage_map.people}
+						<tr> 
+							<td>{$type}</td>
+							<td>{$name} [ <a href="{$del_link}" onclick="if(confirm('Really delete this author?')) { return true; } else { return false; }">X</a> ]</td>
+						</tr>
+					{/loop}
+					</table>
+					 
+				</div>
+			</div>
+			

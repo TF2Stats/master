@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>{$site.title}</title>
+	
+	<link rel="stylesheet" href="/libs/min/?g=css" />
+	<link rel="stylesheet" href="/static/css/fonts.css" />
+	
+	<script type="text/javascript" src="/libs/min/?g=js"></script>
+	<script type="text/javascript">
+  	/* <![CDATA[ */
+  	
+	$(document).ready(function () {
+		// Initialize shiny stuff
+		$(".scrollable").scrollable();
+		$(".arealink").areaLink();
+		$(".listtable tr:not(:first)").areaHover({ color: '#322b25', speed: 'fast'});
+		$("[title]").tooltip({
+			delay: 0,
+			opacity: .9,
+			tipClass: 'tipcontent round5'
+		}).dynamic();
+		$("a[rel^='popup']").prettyPhoto({
+				theme: 'dark_rounded'
+			});
+		//$("input, textarea, select, button").uniform();
+		//$("select").uniform();
+	});
+	/* ]]> */  
+	</script>
+	{$site.head}
+</head>
+<body>
+	<div class="header"> 
+		<div>
+			
+			<div class="userbox round5"> 
+				<div class="round5"> 
+				
+					{$site.user_box}
+					<div class="clear"></div>
+				</div>
+			</div>
+			<a href="/"><img class="logoimg" src="/static/images/logo_background.png" width="602" height="101" alt="TF2Stats.net - Team Fortress 2 Statistics (mostly about hats)" /></a>
+		</div>
+	</div>
+	<div class="tabcontainer">
+		<div>
+			<ul class="navigation"> 
+				<li class="arealink {$site.tabs.map}"><span><i class="ico spr_mapstats tab_ico"></i> <a href="/maps/" class="main">Map Stats</a></span></li>
+				<li class="arealink {$site.tabs.server}"><span><i class="ico spr_serverstats tab_ico"></i> <a href="/servers/" class="main">Server Stats</a></span></li>
+				<li class="arealink {$site.tabs.player}"><span><i class="ico spr_playerstats tab_ico"></i> <a href="/players/" class="main">Player Stats</a></span></li>
+				<li class="arealink {$site.tabs.item}"><span><i class="ico spr_itemstats tab_ico"></i> <a href="/items/" class="main">Item Stats</a></span></li>
+				<!--li class="arealink {$site.tabs.more}"><span><i class="ico spr_morestats tab_ico"></i> <a href="/more/" class="main">More</a></span></li-->
+				<li class="arealink {$site.tabs.all_items}"><span><i class="ico spr_allitems tab_ico"></i> <a href="/all_items/" class="main">Item List</a></span></li>
+				<li class="arealink {$site.tabs.blog}"><span><i class="ico spr_blog tab_ico"></i> <a href="/blog/" class="main">Blog</a></span></li>
+			</ul>
+		</div> 
+	</div>
+	
+	<div class="content"> 
+		<div>
+			<!--div class="motd round5">
+				<div class="round5">
+					
+				</div>
+			</div-->

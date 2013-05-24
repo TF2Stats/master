@@ -1,0 +1,31 @@
+			<p>Crate contents as collected by <a href="http://tradingpost.dynamitealley.com/index.php">Luigi30's Trading Post</a> servers.</p> 
+			<br />
+			{loop $crates.crates}
+			<div class="panel round5 {if $dwoo.loop.default.index > 2} panelspacer_top{/if}" style="width: 268px;">
+				<h1>Crate series {$series}</h1>
+				<hr />
+				<div class="items">
+					{loop $items}
+					<div>
+							<div class="item tooltip round5">
+								<a href="/item/{$name_url}/{$defindex}/"><img src="/static/images/items/sized/xy78/{$image}" alt="{$name}" title="{$tooltip|htmlspecialchars}"/></a>
+							</div>
+							<div class="weaponstats"> 
+								<div class="hbars round5 hat_short">
+									 <p>{$drop_rate*100|round:2}%</p>
+								</div>
+							</div>
+							<div class="clear"></div>
+					</div>
+					{/loop}
+				</div>
+				<div class="clear"></div>
+					<span class="grey">Sample size: {$sample} crates.</span>
+			</div>	
+			
+			
+			<div class="{cycle values="panelspacer,panelspacer,clear"}"></div>
+			{/loop}
+			<div class="clear"></div>
+			<br />
+			<p><span class="grey"><b>Note:</b> This data is not collected directly by TF2Stats.net, and cannot be verified.</span></p>

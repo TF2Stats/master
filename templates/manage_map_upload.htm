@@ -1,0 +1,43 @@
+			<div class="panel round5" style="width: 605px;"> 
+				<h1>Editing {$manage_map_upload.map_info.name}</h1>
+				<hr />
+				<h2>Upload image</h2>
+
+				{if $manage_map_upload.error}
+				<div class="error"> 
+					{$manage_map_upload.error}
+				</div>
+				{/if}
+				{if $manage_map_upload.success}
+				<div class="success"> 
+					{$manage_map_upload.success}
+				</div>
+				{/if}
+				<form enctype="multipart/form-data" action="/manage_map/{$manage_map_upload.map_info.name}/upload" method="post" class="cleanform"> 
+			
+					<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+					<label for="image">Image
+					<span class="small">Supported formats: {$manage_map_upload.allowed_images}<br />
+					Maximum size: 1 MB</span></label>				
+					<input type="file" name="image" />
+
+					<label for="update">Upload image</label>
+					<input type="submit" name="upload" />
+				</form>
+				
+				
+			</div>
+			
+			<div class="panelspacer"></div>
+			
+			<div class="panel round5" style="width: 240px;"> 
+				<h1>Toolbox</h1>
+				<div>
+					<hr />
+					<ul> 
+						<li><a href="/manage_map/{$manage_map_upload.map_info.name}/">Edit map info</a></li>
+					</ul>
+					 
+				</div>
+			</div>
+			

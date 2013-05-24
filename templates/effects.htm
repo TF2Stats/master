@@ -1,0 +1,35 @@
+				<div class="panel round5" style="width: 885px;">
+				<h1>Effect statistics</h1>
+				<hr />
+				<p>Particle effect distribution across all items with effects</p>
+				<div class="items">
+					{loop $effects.effects}
+					<div>
+						<div class="item tooltip round5">
+							<img src="{$image}" width="78" height="78" alt="{$name}" title="{$tooltip|htmlspecialchars}"/>
+						</div>
+						<div class="weaponstats"> 
+								<div class="hbars round5">
+									<div>
+										<div class="barh20 round3" style="width: {$total*765}px;"></div>
+										<span>{if $total*100|round:2 > 0}{$total*100|round:2}%{else}{if $total > 0}&lt;0.01%{else}0%{/if}{/if} of items with effects</span>
+									</div>
+									<div>
+										<div class="barh20 round3" style="width: {$global*765}px;"></div>
+										<span>{if $global*100|round:2 > 0}{$global*100|round:2}%{else}{if $global > 0}&lt;0.01%{else}0%{/if}{/if} of all items</span>
+									</div>
+									<div>
+										<div class="barh20 round3" style="width: {$players*765}px;"></div>
+										<span>{if $players*100|round:2 > 0}{$players*100|round:2}%{else}{if $players > 0}&lt;0.01%{else}0%{/if}{/if} of players own</span>
+									</div>
+								</div>
+						</div>
+
+					</div>
+					<div class="clear"></div>
+					{/loop}
+					
+					</div>
+										<p class="panelnote">Item stats sampled from {$effects.profiles} profiles on {date_format $effects.time "%m-%d-%y at %l:%M%P"}.</p>
+				</div>
+				

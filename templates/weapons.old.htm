@@ -1,0 +1,60 @@
+				<div class="panel round5" style="width: 885px;">
+				<div class="right">
+					
+					<form action="./">
+						<label for="sort">Sort by:</label>
+						<select name="sort" onchange="$(this).closest('form').submit();">
+							<option value="owned" {$weapons.sort.owned}>% owned</option>
+							<option value="equipped" {$weapons.sort.equipped}>% equipped</option>
+							<option value="own_equip" {$weapons.sort.own_equip}>% owners equip</option>
+						</select>
+					</form> 
+				</div>
+				<h1>Weapon statistics</h1>
+				<hr />
+				<p>Weapon use and ownership statistics. Click on a weapon's icon for additional information</p>
+				<div class="items">
+
+					{foreach $weapons.weapons item=slots key=class}
+					<div class="hsheader">
+						<div>{$class}</div>
+					</div>
+					<div class="clear"></div>
+					{foreach $slots item=weapons key=slot}
+					<div class="hsspacer"></div>
+					<div class="hsheader">
+						<div>{$slot|ucfirst}</div>
+					</div>
+					{loop $weapons}
+					{if $hide ==  false}
+					<div>
+						<div class="item tooltip round5">
+							<a href="/item/{$name_url}/{$defindex}/"><img src="/static/images/items/sized/xy78/{$image}" alt="{$name}" title="{$tooltip|htmlspecialchars}"/></a>
+						</div>
+						<div class="weaponstats"> 
+							<!-- Equipped stats -->
+								<div class="hbars round5">
+									<div>
+										<div class="barh20 round3" style="width: {$equipped*765}px;"></div>
+										<span>{$equipped*100|round:2}% equip</span>
+									</div>
+									<div>
+										<div class="barh20 round3" style="width: {$owned*765}px;"></div>
+										<span>{$owned*100|round:2}% own</span>
+									</div>
+									<div>
+										<div class="barh20 round3" style="width: {$owned_equipped*765}px;"></div>
+										<span>{$owned_equipped*100|round:2}% owners equip</span>
+									</div>
+									
+								</div>
+						</div>
+
+					</div>
+					<div class="clear"></div>
+					{/if}
+					{/loop}
+					{/foreach}
+					{/foreach}
+					</div>
+				</div>

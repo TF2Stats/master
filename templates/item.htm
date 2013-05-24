@@ -1,0 +1,155 @@
+			<div class="panel round5" style="width: 885px;">
+				<div class="right">
+					<!-- AddThis Button BEGIN -->
+					<div class="addthis_toolbox addthis_default_style ">
+					<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+					<a class="addthis_button_tweet"></a>
+					<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+					</div>
+					<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e849e197372b152"></script>
+					<!-- AddThis Button END -->
+				</div> 
+				<h1>{$item.item.name}</h1>
+				<hr />
+				<div class="{if $item.info.prices}itempage_icon_buy{else}itempage_icon{/if} round5 left">
+					<img src="/static/images/items/sized/xy128/{$item.item.image}" width="128" height="128" alt=""><br />
+					{if $item.info.prices}
+						<div class="buy_btn arealink"><a href="http://store.steampowered.com/buyitem/440/{$item.item.defindex}" class="main"></a></div>
+					{/if}
+				</div>
+				{if $item.info}
+					<div class="left" style="width: 400px">
+						<p>
+						{loop $item.info.descriptions}
+							{if $color}<span style="color: #{$color}">{/if}
+							{$value}
+							{if $color}</span>{/if}
+							{if !$.loop.default.last}<br />{/if}		
+						{/loop}
+						</p>
+						
+						<div class="smallbtn round3 arealink"><a href="/model/{$item.url_name}/{$item.item.defindex}" class="main">3D Model</a></div> <div class="smallbtn round3 arealink"><a href="http://wiki.teamfortress.com/scripts/itemredirect.php?id={$item.item.defindex}" class="main">Wiki</a></div>
+					</div>
+					<div  class="left" style="margin-left: 20px; width: 300px">
+						<table class="pstable" width="100%">
+							<thead>
+								<tr>
+									<th>Attributes</th>
+									<th class="right"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="header">Classes</td>
+									<td class="num">{$.x=0}{loop $item.info.tags}{if $category == 'Class'}{if $.x != 0}, {/if}{$.x = $.x + 1}{$name}{/if}{/loop}</td>
+								</tr>
+								<tr>
+									<td class="header">Type</td>
+									<td class="num">{loop $item.info.tags}{if $category == 'Type'}{$name}{/if}{/loop}</td>
+								</tr>
+								<tr>
+									<td class="header">Quality</td>
+									<td class="num">{loop $item.info.tags}{if $category == 'Quality'}<span style="color: #{$color}">{$name}</span>{/if}{/loop}</td>
+								</tr>	
+								<tr>
+									<td class="header">Ownership</td>
+									<td class="num">{if $item.item.owned*100|round:2 > 0}{$item.item.owned*100|round:2}%{else}{if $item.item.owned > 0}&lt;0.01%{else}0%{/if}{/if}</td>
+								</tr>	
+								<tr>
+									<td class="header">Equipped</td>
+									<td class="num">{if $item.item.owned_equipped*100|round:2 > 0}{$item.item.owned_equipped*100|round:2}%{else}{if $item.item.owned_equipped > 0}&lt;0.01%{else}0%{/if}{/if}</td>
+								</tr>	
+							</tbody>					
+						</table>
+					</div>
+				{else}
+				<p>The {$item.item.name} has been seen on {if $item.item.owned*100|round:2 > 0}{$item.item.owned*100|round:2}%{else}{if $item.item.owned > 0}&lt;0.01%{else}0%{/if}{/if} profiles scanned.</p>
+				<p>Of these, {if $item.item.owned_equipped*100|round:2 > 0}{$item.item.owned_equipped*100|round:2}%{else}{if $item.item.owned_equipped > 0}&lt;0.01%{else}0%{/if}{/if} have it equipped.</p>
+				<br />
+				<div class="smallbtn round3 arealink"><a href="/model/{$item.url_name}/{$item.item.defindex}" class="main">3D Model</a></div> <div class="smallbtn round3 arealink"><a href="http://wiki.teamfortress.com/scripts/itemredirect.php?id={$item.item.defindex}" class="main">Wiki</a></div>
+				{/if}
+
+			</div>
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+				
+			<div class="panel round5" style="width: 268px;">
+				<h1>Colors</h1>
+				<hr />
+				{if $item.item.colors}
+					<p>Distribution of colors for all painted versions of this item.</p>
+					<div class="clear"></div>
+					{loop $item.item.colors}
+						<div>
+							<div class="barh20 round3" style="width: {$num*268}px; background-color: #{$color}">
+								<span>{$name}: {if $num*100|round:1 > 0}{$num*100|round:1}%{else}&lt;0.1%{/if}</span>
+							</div>
+							
+						</div>
+					{/loop}
+				{else}
+				<p>This item has not been seen painted.</p>
+				{/if}
+				&nbsp;
+			</div>	
+			
+			<div class="panelspacer"></div>
+			
+			<div style="width: 268px; float: left;">
+				<div class="panel round5" style="width: 268px;">
+					<h1>Qualities</h1>
+					<hr />
+					<p>Quality distribution for this item</p>
+					{loop $item.item.qualities}
+						<div>
+							<div class="barh20 round3 {$quality}" style="width: {$num*268}px;">
+								<span>{$label}: {if $num*100|round:1 > 0}{$num*100|round:1}%{else}&lt;0.1%{/if}</span>
+							</div>
+							
+						</div>
+					{/loop}
+					&nbsp;
+				</div>	
+
+				<div class="panel panelspacer_top round5" style="width: 268px;">
+					<h1>Origins</h1>
+					<hr />
+					<p>How this item is obtained</p>
+					{loop $item.item.origins}
+						<div>
+							<div class="barh20 round3" style="width: {$num*268}px;">
+								<span>{$label}: {if $num*100|round:1 > 0}{$num*100|round:1}%{else}&lt;0.1%{/if}</span>
+							</div>
+							
+						</div>
+					{/loop}
+					{if $item.item.origins|count < 1}
+					<p>No data.</p>
+					{/if}
+					&nbsp;
+				</div>	
+
+			</div>
+			
+			<div class="panelspacer"></div>
+			<div class="panelspacer"></div>
+			
+			<div class="panel round5" style="width: 269px;">
+				<h1>Effects</h1>
+				<hr />
+				{if $item.item.effects}
+					<p>Distribution of particle effects</p>				
+					{loop $item.item.effects}
+						<div>
+							<div class="barh20 round3" style="width: {$num*269}px;">
+								<span>{$label}: {if $num*100|round:1 > 0}{$num*100|round:1}%{else}&lt;0.1%{/if}</span>
+							</div>
+							
+						</div>
+					{/loop}
+				{else}
+				<p>This item has not been seen with a particle effect</p>
+				{/if}
+				&nbsp;
+			</div>	

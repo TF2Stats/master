@@ -1,0 +1,61 @@
+			<script type="text/javascript">
+			$(document).ready(function () {			
+				$('#serversearch').autocomplete(
+				{
+				  source: '/ajax/server_autocomplete.php',
+				  width: 300,
+				  max: 10,
+				  delay: 100,
+				  cacheLength: 1,
+				  scroll: false,
+				  highlight: false
+				});
+			});
+			</script>
+			
+			<div class="panel round5" style="width: 885px;">
+				<h1>Server Statistics</h1>
+				<hr />
+				<table class="pstable"> 
+				
+					<tr>
+						<th></th>
+						<th class="num">Servers</th>
+						<th class="num">Players</th>
+						<th class="num">Slots</th>
+						<th class="num">Saturation</th>
+					</tr>
+					<tr>
+						<td class="header">Active</td>
+						<td class="num">{$servers.stats.total.num_servers - $servers.stats.idle.num_servers}</td>
+						<td class="num">{$servers.stats.total.num_players - $servers.stats.idle.num_players}</td>
+						<td class="num">{$servers.stats.total.num_slots - $servers.stats.idle.num_slots}</td>
+						<td class="num">{math "round((a+b)/2,3)" a=$servers.stats.total.saturation b=$servers.stats.idle.saturation}</td>
+					</tr>
+					<tr>
+						<td class="header">Idle</td>
+						<td class="num">{$servers.stats.idle.num_servers}</td>
+						<td class="num">{$servers.stats.idle.num_players}</td>
+						<td class="num">{$servers.stats.idle.num_slots}</td>
+						<td class="num">{$servers.stats.idle.saturation|round:3}</td>
+					</tr>
+					<tr>
+						<td class="header">Total</td>
+						<td class="num">{$servers.stats.total.num_servers}</td>
+						<td class="num">{$servers.stats.total.num_players}</td>
+						<td class="num">{$servers.stats.total.num_slots}</td>
+						<td class="num">{$servers.stats.total.saturation|round:3}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			<div class="panel round5" style="width: 885px;">
+				<h1>Server Search</h1>
+				<hr />
+				<p>Looking for a particular server? Search by name or IP</p> <br />
+				<form action="/server_search/"> 
+					<input type="text" name="search" id="serversearch"/> <input type="submit" name="Search" value="Search" />
+				</form>
+			</div>

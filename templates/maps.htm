@@ -1,0 +1,100 @@
+			<div class="panel round5" style="width: 605px;"> 
+				<h1>Featured Map</h1>
+				<hr />
+				
+				<div class="featmapbox arealink">
+					<img src="{$maps.feat.image}" alt="{$maps.feat.name}" width="600" height="360" />
+					<div>
+						<div class="fmbinfo"> 
+							<p><strong>Type:</strong> {$maps.feat.type}</p>
+							<p><strong>Played:</strong> {$maps.feat.plays} times</p>
+						</div>
+						
+						<div class="fmbinfo"> 
+							<p><strong>Rank:</strong> {if $maps.feat.rank > 0}{$maps.feat.rank}{else}Unranked{/if}</p>
+							<p><strong>Players:</strong> {$maps.feat.players}</p>
+						</div>
+						
+						<h1><a href="/map/{$maps.feat.name}/" class="main">{$maps.feat.display_name}</a></h1>
+					</div>
+				</div>
+			</div>
+			
+			<div class="panelspacer"></div>
+			
+			<div class="panel round5" style="width: 240px;"> 
+				<h1>Newest Maps</h1>
+				<div>
+					<hr />
+					<table class="listtable"> 
+						<tr> 
+							<th>##</th>
+							<th>Map name</th>
+						</tr>
+					{loop $maps.new_maps}
+						<tr> 
+							<td>{$count}</td>
+							<td><a href="{$link}">{$label}</a></td>
+						</tr>
+					{/loop}
+					</table>
+					 
+				</div>
+			</div>
+			
+			<div class="panelspacer"></div>
+			
+			<script type="text/javascript">
+			$(document).ready(function () {			
+				$('#mapsearch').autocomplete(
+				{
+				  source: '/ajax/map_autocomplete.php',
+				  width: 300,
+				  max: 10,
+				  delay: 100,
+				  cacheLength: 1,
+				  minLength: 6,
+				  scroll: false,
+				  highlight: false
+				});
+			});
+			</script>
+			
+			<div class="panel panelspacer_top round5" style="width: 240px;">
+				<h1>Search</h1>
+					<hr />
+					<form action="/map_search/"> 
+						<input type="text" name="search" id="mapsearch"/> <input type="submit" value="Search" />
+					</form>
+			</div>
+			
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			
+			<div class="panel round5" style="width: 885px;">
+			<!-- <div style="float: right;">
+					<form action="/">
+						<select name="filter">
+							<option value="foo">Most Players</option>
+							<option value="foo">Most Servers</option>
+							<option value="foo">Most Popular</option>
+							<option value="foo">Highest Rated</option>
+						</select>
+					</form> 
+				</div> -->
+				<h1>Popular Maps</h1>
+				<hr />
+				<!-- Row 1 -->
+				{loop $maps.popular_maps}
+				<div class="popmapbox arealink">
+					<div class="round3"> 
+						<img src="{$image}" width="165" height="165" alt="" />
+						<div><a href="{$link}" class="main">{$label}</a></div>
+					</div>
+				</div>
+				{/loop}
+				<div class="right">
+					<div class="tf2btn arealink round5"><a href="/map_list/" class="main">More +</a></div>
+				</div>
+			</div>

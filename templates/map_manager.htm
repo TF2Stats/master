@@ -1,0 +1,77 @@
+			<div class="panel round5" style="width: 605px;"> 
+				<h1>Map manager</h1>
+				<hr />
+				<p>Map authors, contributors, and even regular players can help TF2Stats by expanding our
+				map information library. To start, type in the name of the map you wish to update below, and select
+				the relationship that best describes you.</p>
+				<ul>
+					<li>Author - A primary author of the map</li>
+					<li>Contributor - Someone who has made contributions to the final map, but was not directly involved
+					in it's creation</li>
+					<li>Maintainer - Someone who has no relation to the development of the map, but would like to update information.</li>
+				</ul>
+				{if $map_manager.error}
+				<div class="error form_error"> 
+					{$map_manager.error|escape}
+				</div>
+				{/if}
+				{if $map_manager.success}
+				<div class="success"> 
+					{$map_manager.success|escape}
+				</div>
+				{/if}
+				
+				<script type="text/javascript">
+				$(document).ready(function () {			
+					$('#mapsearch').autocomplete(
+							{
+							  source: '/ajax/map_autocomplete.php',
+							  width: 300,
+							  max: 10,
+							  delay: 100,
+							  cacheLength: 1,
+							  minLength: 6,
+							  scroll: false,
+							  highlight: false
+							});
+				});
+				</script>
+				
+				<form action="/map_manager/" method="post"  class="cleanform"> 
+				<label for="map">Map Name <span class="small">The bsp name of the map (eg ctf_2fort)</span></label>
+				<input type="text" name="map" id="mapsearch"/>
+				
+				<label for="type">Relationship<span class="small">See above chart for details</span></label>
+				<select name="type">
+					<option value="A">Author</option>
+					<option value="C">Contributor</option>
+					<option value="M" selected>Maintainer</option>
+				</select>
+				
+				<label for="request">Request</label>
+				<input type="submit" name="request" value="Request map" />
+				</form>
+			</div>
+			
+			<div class="panelspacer"></div>
+			
+			<div class="panel round5" style="width: 240px;"> 
+				<h1>Your maps</h1>
+				<div>
+					<hr />
+					<table class="listtable"> 
+						<tr> 
+							<th>TP</th>
+							<th>Map name</th>
+						</tr>
+					{loop $map_manager.managed_maps}
+						<tr> 
+							<td>{$type}</td>
+							<td><a href="{$link}">{$label}</a></td>
+						</tr>
+					{/loop}
+					</table>
+					 
+				</div>
+			</div>
+			

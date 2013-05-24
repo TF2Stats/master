@@ -1,0 +1,35 @@
+			<div class="panel round5" style="width: 885px;">
+				<h1>Map List</h1>
+				<hr />
+				<!-- Row 1 -->
+				{loop $map_list.maps}
+				<div class="arealink">
+					<a href="/map/{$name}/" class="main"></a>
+					<div class="round5 list_image"> 
+						<img src="{$image}" alt="{$name}" />
+						<div>{$icon}</div>
+					</div>
+					<div class="list_box round5"> 
+						<h1>{$name}</h1> 
+						<span class="grey">({$type})</span> <br /> 
+						
+						<div class="col"><b>Daily Rank:</b> {if $rank > 0}{$rank}{else}Unranked{/if}</div>
+						<div class="col"><b>Players:</b> {$players}</div>
+						<div class="clear"></div>
+						<div class="col"><b>Played:</b> {$plays} times</div> 
+						<div class="col"><b>Servers:</b> {$servers}</div>
+						
+						<div class="score"><h2>{$score}</h2></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				{/loop}
+				
+				<div class="right">
+					{if $map_list.page > 0}
+						<div class="tf2btn arealink round5 left"><a href="/map_list/{$map_list.method}/{$map_list.page-1}/" class="main">&lt;</a></div>
+					{/if}
+					<span class="scrollposition left" id="itempage">{$map_list.page+1}</span>
+					<div class="tf2btn arealink round5 left"><a href="/map_list/{$map_list.method}/{$map_list.page+1}/" class="main">&gt;</a></div>
+				</div>
+			</div>

@@ -1,0 +1,18 @@
+			<div class="panel round5" style="width: 885px;"> 
+				<h1>Ref Report</h1>
+				<hr />
+				<table> 
+					<tr>
+						<th>Hits</th>
+						<th>Source</th>
+						<th>Dest</th>
+					</tr>
+					{loop $ref_report.refs}
+					<tr>
+						<td>{$count}</td>
+						<td><a href="{$source}" target="_blank">{$source_display}</a></td>
+						<td><a href="{$dest}">{$dest_display}</a></td>		
+					</tr>
+					{/loop}
+				</table>
+			</div>

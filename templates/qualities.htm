@@ -1,0 +1,30 @@
+				<div class="panel round5" style="width: 885px;">
+				<h1>Quality statistics</h1>
+				<hr />
+				<p>Item quality distribution across all items scanned</p>
+				<div class="items">
+					{loop $qualities.qualities}
+					<div>
+						<div class="item tooltip round5" style="background-color:{$color}">
+
+						</div>
+						<div class="weaponstats"> 
+							
+								<div class="hbars round5">
+									<h1>{$name}</h1>
+									<div>
+										<div class="barh42 round3" style="width: {$total*765}px;"></div>
+										<span><strong>{if $total*100|round:2 > 0}{$total*100|round:2}%{else}{if $total > 0}&lt;0.01%{else}0%{/if}{/if}</strong> <br />of all items</span>
+									</div>
+
+								</div>
+						</div>
+
+					</div>
+					<div class="clear"></div>
+					{/loop}
+					
+					</div>
+										<p class="panelnote">Item stats sampled from {$effects.profiles} profiles on {date_format $effects.time "%m-%d-%y at %l:%M%P"}.</p>
+				</div>
+				

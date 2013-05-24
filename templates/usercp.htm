@@ -1,0 +1,23 @@
+			<div class="panel round5" style="width: 885px;"> 
+				<h1>User CP</h1>
+				<hr />
+				{if $usercp.error}
+				<div class="error"> 
+					{$usercp.error}
+				</div>
+				{/if}
+				{if $usercp.success}
+				<div class="success"> 
+					{$usercp.success}
+				</div>
+				{/if}
+				<p>Here you can do... Stuff...</p>
+				<ul> 
+					<li><a href="/map_manager/">Map manager</a></li>
+					{if $usercp.admin}
+					<li><a href="/usercp/update_schema">ADMIN: Update schema</a></li>
+					<li><a href="/usercp/purge_backpacks">ADMIN: Clean backpack cache</a></li>
+					<li><a href="/ref_report">ADMIN: Referral report</a></li>
+					{/if}
+				</ul>
+			</div>

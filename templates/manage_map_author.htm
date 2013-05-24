@@ -1,0 +1,40 @@
+			<script type="text/javascript">
+			$(document).ready(function () {			
+				
+				$('#playersearch').autocomplete(
+				{
+				  source: '/ajax/player_autocomplete.php',
+				  width: 300,
+				  max: 10,
+				  delay: 100,
+				  cacheLength: 1,
+				  scroll: false,
+				  highlight: false
+				});
+				
+			});
+			</script>
+			<div class="panel round5" style="width: 605px;"> 
+				<h1>Editing {$manage_map_author.map_info.name}</h1>
+				<hr />
+				<h2>Add author</h2>
+				<p>Enter the author's name, friend ID, or custom URL</p>
+				<form> 
+					<input type="text" name="search" id="playersearch"> <input type="submit" name="aadd" value="Add"/>
+				</form>
+				
+			</div>
+			
+			<div class="panelspacer"></div>
+			
+			<div class="panel round5" style="width: 240px;"> 
+				<h1>Toolbox</h1>
+				<div>
+					<hr />
+					<ul> 
+						<li><a href="/manage_map/{$manage_map_author.map_info.name}/">Edit map info</a></li>
+					</ul>
+					 
+				</div>
+			</div>
+			

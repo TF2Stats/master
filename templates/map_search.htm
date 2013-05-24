@@ -1,0 +1,22 @@
+			<div class="panel round5" style="width: 885px;"> 
+				<h1>Search Results</h1>
+				<hr />
+				<table> 
+					<tr>
+						<th>Name</th>
+						<th>Score</th>
+						<th>Games played</th>
+						<th>Servers</th>
+						<th>Last seen</th>
+					</tr>
+					{loop $map_search.list}
+					<tr>
+						<td><a href="{$link}">{$label}</a></td>
+						<td>{$score}</td>
+						<td>{$plays}</td>
+						<td>{$servers}</td>
+						<td>{date 'm/d/y' $first_seen}</td>					
+					</tr>
+					{/loop}
+				</table>
+			</div>

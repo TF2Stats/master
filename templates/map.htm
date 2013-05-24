@@ -1,0 +1,143 @@
+			<div class="panel round5" style="width: 885px;"> 
+				<h1>Basic information</h1>
+				<hr />
+				<div class="brownbox maprank round5">
+					<div class="round5">
+						<span class="big">{if $map.info.rank > 0}Rank: {$map.info.rank}{else}Unranked{/if}</span><br />
+						<span class="big">Score: {$map.info.score|round:2}</span> 
+					</div>
+				</div>
+				<h2>{if $map.info.official == 1}<img src="/static/images/icon_tf2.png" alt="Official" title="Official Map" width="16" height="16"> {/if}{$map.info.name}</h2>
+				<br />
+				{if $map.extra.description}
+				<p>{$map.extra.description}</p>
+				<br />
+				{if $map.extra.file_size}<p>File size: {$map.extra.file_size}MB</p> {/if}
+				{if $map.extra.download_url}<p><a href="{$map.extra.download_url}">Download {$map.info.name}</a></p>{/if}
+				<br />
+				<p class="i">Map information contributed by <a href="/player/{$map.extra.id64}">{$map.extra.name}</a>, on {date_format $map.extra.edit_time "%m/%d/%y"}</p>
+				
+				{else}
+				<p>There is no additional information about this map. You may add map
+				information in the Map manager, found under the user cp.</p>
+				{/if}
+				
+			</div>
+			{if $map.images}
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			
+			<div class="panel round5" style="width: 885px;">
+				<h1>Screenshots</h1>
+				<hr />
+				<!-- Row 1 -->
+				{loop $map.images}
+				<div class="mapimagebox arealink">
+					<div class="round3"> 
+						<a href="{$full}" class="main" rel="popup"><img src="{$image}" alt="{$name}" /></a>
+					</div>
+				</div>
+				{/loop}
+			</div>
+			{/if}
+				
+			
+			
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			
+			<div class="panel round5" style="width: 885px;">
+				<h1>Statistics</h1>
+				<hr />
+				<table width="100%" class="pstable">
+					<tr> 
+						<th>&nbsp;</th>
+						<th class="num">Current</th>
+					</tr>
+					{loop $map.stats}
+					<tr> 
+						<td class="header">{$key}</td>
+						<td class="num">{$now|round:2}</td>
+					</tr>				
+					{/loop}
+				</table>
+
+			</div>
+			
+						<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			<!-- 
+			<div class="panel round5" style="width: 885px;">
+				<h1>History</h1>
+				<hr />
+				    <script type="text/javascript">
+				    {literal}
+				    google.load('visualization', '1', {packages: ['annotatedtimeline']});
+					$(document).ready(function() {
+					    
+					    google.setOnLoadCallback(ajaxChart);
+					    function drawVisualization(chartdata) {
+		
+					    	  var data = new google.visualization.DataTable();
+	
+					    		  data.addColumn('datetime', 'DateTime');
+					    		  data.addColumn('number', 'Players');
+					    		  data.addColumn('number', 'Servers');
+					    		  data.addColumn('number', 'Server slots');
+					    		  data.addRows(chartdata);
+					    	  	
+			
+					    	  var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
+					    	      document.getElementById('visualization'));
+					    	  annotatedtimeline.draw(data, {'displayAnnotations': false, 'wmode': 'transparent'});
+					    	}
+					    function ajaxChart()
+					    {
+					    	  $.ajax({
+					    			url: 'ajax/map_chart.php?map={/literal}{$map.info.name}{literal}',
+					    			success: function(data) {
+					    		 		eval('cdata = '+data);
+					    		 		drawVisualization(cdata);
+					    		 		
+					    		 		
+					    			},
+					    		});
+					    }
+					   });
+
+				      //
+				      {/literal}
+				    </script>
+    			<div id="visualization" style="width: 885px; height: 350px;"></div>
+    			
+			</div>
+			
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			 -->
+			<div class="panel round5" style="width: 885px;">
+				<h1>Servers</h1>
+				<hr />
+				<table class="listtable">
+					<tr>
+						<th>Name</th>
+						<th class="r">Players</th>
+						<th class="r">Times played</th>
+						<th class="r">Time</th>
+					</tr>
+				
+				{loop $map.servers}
+				<tr class="arealink"> 
+					<td><a href="{$url}" class="main">{$name}</a></td>
+					<td class="r">{$players}/{$max_players}</td>
+					<td class="r">{$plays}</td>
+					<td class="r">{date_format $time "%m-%d %l:%M%P"}</td>
+				</tr>				
+				{/loop}
+				</table>
+
+			</div>

@@ -1,0 +1,68 @@
+			<div class="panel round5" style="width: 885px;"> 
+				<h1>Server Information</h1>
+				<hr />
+				<div class="sp_map brownbox round5">
+					<div class="round5">
+							<a href="/map/{$server.info.map_name}/"><img src="{$server.image.thumb}" alt="{$server.info.map_name}" /></a>
+					</div>
+				</div>
+				<h2>{$server.info.name}</h2>
+				<p>{$server.info.map_label} with {$server.info.players}/{$server.info.max_players}</p>
+				<p>Address {$server.info.ip}:{$server.info.port}</p>
+				<p>Updated at {date_format $server.info.last_seen "%m-%d %l:%M%P"}</p>
+			
+				
+			</div>
+			
+			{if $server.rule_list}
+			
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			
+			<div class="panel round5" style="width: 885px;">
+				<h1>Configuration</h1>
+				<hr />
+				<table class="listtable">
+					<tr>
+						<th>Name</th>
+						<th class="r">Value</th>
+					</tr>
+				
+				{loop $server.rule_list}
+					{if $value != ''}
+					<tr> 
+						<td>{$name}</td>
+						<td class="r">{$value}</td>
+					</tr>
+					{/if}				
+				{/loop}
+				</table>
+
+			</div>
+			{/if}
+		
+			<div class="clear"></div>
+			<div class="panelspacer"></div>
+			<div class="clear"></div>
+			
+			<div class="panel round5" style="width: 885px;">
+				<h1>Mapcycle</h1>
+				<hr />
+				<table class="listtable">
+					<tr>
+						<th>Name</th>
+						<th class="r">Times played</th>
+						<th class="r">Last seen</th>
+					</tr>
+				
+				{loop $server.map_list}
+				<tr class="arealink"> 
+					<td><a href="/map/{$name}/" class="main">{$name}</a></td>
+					<td class="r">{$plays}</td>
+					<td class="r">{date_format $time "%m-%d %l:%M%P"}</td>
+				</tr>				
+				{/loop}
+				</table>
+
+			</div>
