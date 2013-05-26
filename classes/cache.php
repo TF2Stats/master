@@ -32,37 +32,42 @@ class cache
 
 		if( $contents !== false )
 		{
-			cache::log( sprintf( 'memcached HIT for %s', $key ) );
+			cache::log( sprintf( 'Memcached HIT for %s', $key ) );
 			return $contents;
 		}
 
-		cache::log( sprintf( 'memcached MISS for %s (result: %s)', $key, self::Memcached()->getResultCode() ) );
+		cache::log( sprintf( 'Memcached MISS for %s (result: %s)', $key, self::Memcached()->getResultCode() ) );
 
 		$cache_stats['sql']['misses'] += 1;
 
 		if($cache_only)
+		{
 			return false;
-
-		$context = stream_context_create(array(
-		    'http' => array(
-		        'timeout' => 5,
-				'header'=>'Connection: close'
-		        )
-		    )
-		);
+		}
+		
 		$apitime = microtime(true);
-		$contents =  file_get_contents($url, false, $context);
+		
+		$rc = new RollingCurl();
+		$rc->request( $url );
+		$rc->window_size = 1;
+		$contents = $rc->execute();
+		
 		$apitime = number_format(microtime(true) - $apitime, 3);
+		
 		cache::log( sprintf( "Single API request took %s sec", $apitime ) );
 
 		if($contents)
 		{
 			if(!$age)
+			{
 				$age = $settings['cache']['length'];
-
+			}
+			
 			self::Memcached()->set($key, $contents, time() + $age);
+			
 			return $contents;
 		}
+		
 		return false;
 	}
 

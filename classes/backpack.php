@@ -54,7 +54,7 @@ class backpack
 		$cache = Cache::Memcached()->get( $key );
 		if( $cache === false )
 		{
-			cache::log( sprintf('Memcache MISS for %s (result: %s)', $key, Cache::Memcached()->getResultCode() ) );
+			cache::log( sprintf('Memcached MISS for %s (result: %s)', $key, Cache::Memcached()->getResultCode() ) );
 
 			$url = sprintf('http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?key=%s&SteamID=%s',$settings['api_key'],$id64);
 			if( $multi )
@@ -72,7 +72,7 @@ class backpack
 				$this->initialize($response);
 			}
 		} else {
-			cache::log( sprintf('memcached HIT for %s', $key ) );
+			cache::log( sprintf('Memcached HIT for %s', $key ) );
 			$this->initialize();
 		}
 
