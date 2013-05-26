@@ -3,6 +3,8 @@ class players_view extends view
 {
 	public function prepare()
 	{
+		global $settings;
+
 		$this->template="players";
 		$this->tab="player";
 		$this->title = "Player search";
@@ -18,12 +20,19 @@ class players_view extends view
 				$sbit = $str_array[count($str_array)-2];
 			header('Location: /player/'.$sbit);
 		} else {
-			require_once('cache/valve_employees.php');
+			@include('cache/valve_employees.php');
 			
 			global $VALVE_EMPLOYEES;
-			
-			$json = cache::read('player_views.json');
-			$views = json_decode($json, true);
+
+
+			$views = cache::Memcached()->get('player_views');
+			if( $views === false )
+			{
+				$json = file_get_contents($settings['cache']['folder'].'player_views.json');
+				$views = json_decode($json, true);
+				cache::Memcached()->set('player_views', $views);
+			}
+
 			$this->params['views'] = $views;
 			$this->params['valve_employees'] = $VALVE_EMPLOYEES;
 		}

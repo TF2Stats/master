@@ -12,10 +12,15 @@ class effects_view extends view
 		$this->title = "Effect statistics";
 		
 		$b = new backpack(false);
-		
-		$json = cache::read('item_stats.json');
-		$item_stats = json_decode($json, true);
-		
+
+		$item_stats = cache::Memcached()->get('item_stats');
+		if( $item_stats === false )
+		{
+			$json = file_get_contents($settings['cache']['folder'].'item_stats.json');
+			$item_stats = json_decode($json, true);
+			cache::Memcached()->set('item_stats', $item_stats);
+		}
+
 		$total_effects = $item_stats['total_effects'];
 		$total_items = $item_stats['total_items'];
 		

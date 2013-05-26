@@ -6,7 +6,7 @@ class paints_view extends view
 {
 	public function prepare()
 	{
-		global $schema;
+		global $schema, $settings;
 		$this->template="paints";
 		$this->tab = 'item';
 		$this->title = "Paint statistics";
@@ -26,10 +26,15 @@ class paints_view extends view
 			$this->params['sort'][$this->request['sort']] = 'selected';
 		} else 
 			$this->params['sort']['total'] = 'selected';
-		
-		
-		$json = cache::read('item_stats.json');
-		$item_stats = json_decode($json, true);
+
+
+		$item_stats = cache::Memcached()->get('item_stats');
+		if( $item_stats === false )
+		{
+			$json = file_get_contents($settings['cache']['folder'].'item_stats.json');
+			$item_stats = json_decode($json, true);
+			cache::Memcached()->set('item_stats', $item_stats);
+		}
 		
 		$total_paints = $item_stats['total_colors'];
 		$total_items = $item_stats['total_items'];

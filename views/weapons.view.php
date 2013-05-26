@@ -150,7 +150,7 @@ class weapons_view extends view
 {
 	public function prepare()
 	{
-		global $schema, $base_weapons, $slot_order;
+		global $schema, $base_weapons, $slot_order, $settings;
 		$this->template="weapons";
 		$this->tab = 'item';
 		$this->title = 'Weapon statistics';
@@ -170,14 +170,14 @@ class weapons_view extends view
 			$this->params['sort'][$this->request['sort']] = 'selected';
 		} else 
 			$this->params['sort']['owned'] = 'selected';
-		
-		$json_file = 'item_stats.json';
-		if($this->request[0] == "debug")
-			$json_file .= '.debug';
 
-			
-		$json = cache::read($json_file);
-		$item_stats = json_decode($json, true);
+		$item_stats = cache::Memcached()->get('item_stats');
+		if( $item_stats === false )
+		{
+			$json = file_get_contents($settings['cache']['folder'].'item_stats.json');
+			$item_stats = json_decode($json, true);
+			cache::Memcached()->set('item_stats', $item_stats);
+		}
 		
 		// First. build a class->slot->items[] array for our stats
 		foreach($item_stats['items'] as $defindex => $s)

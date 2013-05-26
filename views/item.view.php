@@ -6,23 +6,19 @@ class item_view extends view
 {
 	public function prepare()
 	{
-		global $schema, $asset_info;
+		global $schema, $asset_info, $settings;
 		$this->template="item";
 		$this->tab = 'item';
 		
 		$b = new backpack(false);
-		
-		$debug = false;
-		
-		if($this->request[2] == "debug")
+
+		$item_stats = cache::Memcached()->get('item_stats');
+		if( $item_stats === false )
 		{
-			$debug = true;
-			$json = cache::read('item_stats.json.debug');
+			$json = file_get_contents($settings['cache']['folder'].'item_stats.json');
+			$item_stats = json_decode($json, true);
+			cache::Memcached()->set('item_stats', $item_stats);
 		}
-		else
-			$json = cache::read('item_stats.json');
-			
-		$item_stats = json_decode($json, true);
 		
 		cache::inc('tf2_item_info.php');
 		

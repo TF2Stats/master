@@ -1,7 +1,7 @@
 <?php 
 require_once('classes/player.php');
 require_once('classes/backpack.php');
-require_once('cache/valve_employees.php');
+@include('cache/valve_employees.php');
 
 class player_view extends view
 {
