@@ -48,12 +48,13 @@ class backpack
 
 		$this->player = $player;
 		$id64 = $player->id64();
+		$key = 'BACKPACK_'.$id64;
 
-		$cachefile = sprintf('backpack.%s.php',$id64);
 
-		if( cache::age($cachefile) > $settings['cache']['backpack'] )
+		$cache = Cache::Memcached()->get( $key );
+		if( $cache === false )
 		{
-			cache::log( sprintf('Backpack cache file for %s out of date (age: %s max: %s)', $id64, cache::age($cachefile), $settings['cache']['backpack'] ) );
+			cache::log( sprintf('Memcache MISS for %s (result: %s)', $key, Cache::Memcached()->getResultCode() ) );
 
 			$url = sprintf('http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?key=%s&SteamID=%s',$settings['api_key'],$id64);
 			if( $multi )
@@ -70,8 +71,11 @@ class backpack
 
 				$this->initialize($response);
 			}
-		} else
+		} else {
+			cache::log( sprintf('memcached HIT for %s', $key ) );
 			$this->initialize();
+		}
+
 	}
 
 	function initialize( $json_file = false )
@@ -83,15 +87,14 @@ class backpack
 		$this->equipped = $this->default_loadout();
 		$id = $player->id();
 		$id64 = $player->id64();
-
-		$cachefile = sprintf('backpack.%s.php',$id64);
+		$key = 'BACKPACK_'.$id64;
 
 		if( !$json_file )
 		{
 			global $_CACHE_ITEMS, $_CACHE_EQUIPPED;
-			cache::inc($cachefile);
-			$this->items = $_CACHE_ITEMS;
-			$this->equipped = $_CACHE_EQUIPPED;
+			$cache = Cache::Memcached()->get( $key );
+			$this->items = $cache['items'];
+			$this->equipped = $cache['equipped'];
 			//var_dump($_CACHE_EQUIPPED);
 			return;
 		}
@@ -121,16 +124,15 @@ class backpack
 		}
 
 		// create cache file
-		$cf = sprintf('
-		<?
-		global $_CACHE_ITEMS, $_CACHE_EQUIPPED;
-		$_CACHE_ITEMS = %s;
-		$_CACHE_EQUIPPED = %s;
-		?>',var_export($items,true), var_export($this->equipped,true));
+		$cache = array(
+			'items' => $items,
+			'equipped' => $this->equipped
+		);
+
 		$this->items = $items;
 		//$this->equipped = $equipped;
 
-		cache::write($cachefile,$cf);
+		cache::Memcached()->set( $key, $cache );
 		//cache::clean('backpack');
 	}
 

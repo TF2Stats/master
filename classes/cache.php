@@ -6,44 +6,49 @@ class cache
 	public static $__LinkToFunc = Array();
 	public static $__TempResult = Array();
 	public static $__ApiTime;
-	
+	public static $__Memcached = NULL;
+
+	/**
+	 * @return Memcached
+	 */
+	public function Memcached()
+	{
+		if( self::$__Memcached === NULL )
+		{
+			self::$__Memcached = new Memcached();
+			self::$__Memcached->addServer('localhost', 11211);
+		}
+
+		return self::$__Memcached;
+	}
+
+
 	public static function get($url, $age=false, $cache_only = false)
 	{
 		global $db, $settings, $CACHE, $cache_stats;
-		
-		if(!$url)
-			return;
-		
-		if($CACHE[$url])
-			return $CACHE['url'];
-		
-		if(!$age)
-			$age = $settings['cache']['length'];
 
-		$cache = $db->query_first("SELECT data, time FROM tf2stats_cache WHERE time > %s AND url = %s",
-			array(time() - $age, $url));
-		
-		if( $cache && strlen($cache['data']) > 1)
+		$key = sprintf("URL_".md5($url) );
+		$contents = self::Memcached()->get($key);
+
+		if( $contents !== false )
 		{
-			cache::log( sprintf( 'SQL cache HIT for %s (age: %s, max: %s)', $url, time() - $cache['time'], $age ) );
-			return $cache['data'];
+			cache::log( sprintf( 'memcached HIT for %s', $key ) );
+			return $contents;
 		}
-		else
-			cache::purge($url);
 
-		cache::log( sprintf( 'SQL cache MISS for %s (age: %s, max: %s)', $url, $cache['time'], $age ) );
+		cache::log( sprintf( 'memcached MISS for %s (result: %s)', $key, self::Memcached()->getResultCode() ) );
 
 		$cache_stats['sql']['misses'] += 1;
 
 		if($cache_only)
 			return false;
 
-		$context = stream_context_create(array( 
-		    'http' => array( 
+		$context = stream_context_create(array(
+		    'http' => array(
 		        'timeout' => 5,
 				'header'=>'Connection: close'
-		        ) 
-		    ) 
+		        )
+		    )
 		);
 		$apitime = microtime(true);
 		$contents =  file_get_contents($url, false, $context);
@@ -52,7 +57,10 @@ class cache
 
 		if($contents)
 		{
-			cache::put($url, $contents);
+			if(!$age)
+				$age = $settings['cache']['length'];
+
+			self::Memcached()->set($key, $contents, time() + $age);
 			return $contents;
 		}
 		return false;
@@ -60,15 +68,11 @@ class cache
 
 	function put($url, $contents)
 	{
-		global $db;
+		global $settings;
+		$key = sprintf("URL_".md5($url) );
+		$age = $settings['cache']['length'];
 
-		if($contents)
-		{
-			$db->query("INSERT INTO tf2stats_cache (data, url, time) VALUES(%s, %s, %s)",
-				array($contents, $url, time()));
-			$LOCAL_CACHE[$url] = $contents;
-			return $contents;
-		}
+		self::Memcached()->set($key, $contents, time() + $age);
 	}
 
 	public static function purge($url)
@@ -81,21 +85,25 @@ class cache
 	public static function write($name, $contents)
 	{
 		global $settings;
-		file_put_contents($settings['cache']['folder'].$name,$contents);
+		$age = $settings['cache']['length'];
+
+		$key = "VAR_".$name;
+		self::Memcached()->set($key, $contents, time() + $age);
 	}
 
 	public static function read($name)
 	{
 		global $settings;
-		return file_get_contents($settings['cache']['folder'].$name);
+		$key = "VAR_".$name;
+		return self::Memcached()->get($key);
 	}
 
 	public static function inc($name)
 	{
 		global $settings;
-		
+
 		$name = $settings['cache']['folder'].$name;
-		
+
 		if( file_exists( $name ) )
 		{
 			include($name);
@@ -104,8 +112,8 @@ class cache
 
 	public static function age($name)
 	{
-		global $settings;
-		return time() - @filemtime($settings['cache']['folder'].$name);
+		debug_print_backtrace();
+		die("NO.");
 	}
 
 	public static function date($name)
