@@ -176,7 +176,7 @@ class weapons_view extends view
 		{
 			$json = file_get_contents($settings['cache']['folder'].'item_stats.json');
 			$item_stats = json_decode($json, true);
-			cache::Memcached()->set('item_stats', $item_stats);
+			cache::Memcached()->set('item_stats', $item_stats, time() + 60*15);
 		}
 		
 		// First. build a class->slot->items[] array for our stats

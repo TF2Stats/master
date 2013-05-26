@@ -77,9 +77,8 @@ class cache
 
 	public static function purge($url)
 	{
-		global $db;
-
-		$db->query("DELETE FROM tf2stats_cache WHERE url=%s",array($url));
+		$key = sprintf("URL_".md5($url) );
+		self::Memcached()->delete( $key );
 	}
 
 	public static function write($name, $contents)
@@ -122,17 +121,9 @@ class cache
 		return @filemtime($settings['cache']['folder'].$name);
 	}
 
-	public static function clean($type)
+	public static function clean($type = false)
 	{
-		global $settings;
-		switch($type)
-		{
-			case 'backpack':
-				foreach(glob($settings['cache']['folder'].'backpack.*.php') as $file)
-     				unlink($file);
-     			break;
-				
-		}
+		self::Memcached()->flush();
 	}
 
 	public static function get_multi($requests, $age = false)

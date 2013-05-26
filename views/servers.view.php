@@ -14,7 +14,7 @@ class servers_view extends view
 		{
 			$json = file_get_contents($settings['cache']['folder'].'server_stats.json');
 			$server_stats = json_decode($json, true);
-			cache::Memcached()->set('server_stats', $server_stats);
+			cache::Memcached()->set('server_stats', $server_stats, time() + 60*15);
 		}
 		
 		$this->params['stats'] = $server_stats;

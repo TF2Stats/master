@@ -30,7 +30,7 @@ class players_view extends view
 			{
 				$json = file_get_contents($settings['cache']['folder'].'player_views.json');
 				$views = json_decode($json, true);
-				cache::Memcached()->set('player_views', $views);
+				cache::Memcached()->set('player_views', $views, time() + 60*15);
 			}
 
 			$this->params['views'] = $views;
