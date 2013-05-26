@@ -15,9 +15,9 @@
 				<ul> 
 					<li><a href="/map_manager/">Map manager</a></li>
 					{if $usercp.admin}
-					<li><a href="/usercp/update_schema">ADMIN: Update schema</a></li>
-					<li><a href="/usercp/purge_backpacks">ADMIN: Clean backpack cache</a></li>
-					<li><a href="/ref_report">ADMIN: Referral report</a></li>
+					<li>ADMIN: <a href="/usercp/update_schema">Update schema</a></li>
+					<li>ADMIN: <a href="/usercp/purge_cache">Purge memcached cache</a></li>
+					<li>ADMIN: <a href="/ref_report">Referral report</a></li>
 					{/if}
 				</ul>
 			</div>

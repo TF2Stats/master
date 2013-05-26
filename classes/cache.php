@@ -126,7 +126,7 @@ class cache
 		return @filemtime($settings['cache']['folder'].$name);
 	}
 
-	public static function clean($type = false)
+	public static function clean()
 	{
 		self::Memcached()->flush();
 	}

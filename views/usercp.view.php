@@ -18,11 +18,11 @@ class usercp_view extends view
 				backpack::update_schema();
 				$this->params['success'] = 'Schema updated! Have a nice day <3';
 			}
-			else if($this->request[0] == 'purge_backpacks')
+			else if($this->request[0] == 'purge_cache')
 			{
 				require_once('classes/cache.php');
-				cache::clean('backpack');
-				$this->params['success'] = 'Backpacks purged! Have a nice day <3';
+				cache::clean();
+				$this->params['success'] = 'Memcached cache purged! Have a nice day <3';
 			}
 			/*else if($this->request[0] == 'valve_maps')
 			{
