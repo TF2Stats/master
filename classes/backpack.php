@@ -340,7 +340,7 @@ class backpack
 		//print $response;
 		$s['items'] = $s['items'];
 		$s['attributes'] = $s['attributes'];
-		if(!$s['items'])
+		if(!isset($s['items']))
 			die("FAILED" . PHP_EOL . $response);
 		
 		foreach($s['items'] as $k => $i)
@@ -417,15 +417,21 @@ class backpack
 		}
 		
 		foreach($s['items'] as $i)
+		{
 			$o['items'][$i['defindex']] = $i;
+		}
+		
 		foreach($s['attributes'] as $a)
+		{
 			$o['attributes'][$a['defindex']] = $a;
+		}
+		
 		$o['qualities'] = $s['qualities'];
 		$o['origins'] = $s['originNames'];
 		$o['particles'] = $s['attribute_controlled_attached_particles'];
 		$o['kill_eater_ranks'] = $s['kill_eater_ranks'];
 		$php = var_export($o,true);
-		cache::write('tf2_items_schema.php',sprintf('<?php global $schema; $schema = %s ?>',$php));
+		cache::writeFile('tf2_items_schema.php',sprintf('<?php global $schema; $schema = %s ?>',$php));
 		
 		backpack::update_asset_info();
 		backpack::update_valve_employees();
@@ -454,8 +460,9 @@ class backpack
 		$class_id_arg = '';
 
 		for($x=0;$x<$class_id_count;$x++)
+		{
 			$class_id_arg .= sprintf('&classid%s=%s',$x,$class_ids[$x]);
-		
+		}
 		
 		$response = cache::get(sprintf('http://api.steampowered.com/ISteamEconomy/GetAssetClassInfo/v0001/?appid=440&key=%s&class_count=%s&format=json'.$class_id_arg,$settings['api_key'],$class_id_count),1);
 		$json = json_decode($response, true);
@@ -465,7 +472,7 @@ class backpack
 			$out[$key] = array_merge($item,$s[$item['classid']]);
 		//var_dump($s);
 		$php = var_export($out,true);
-		cache::write('tf2_item_info.php',sprintf('<?php global $asset_info; $asset_info = %s ?>',$php));
+		cache::writeFile('tf2_item_info.php',sprintf('<?php global $asset_info; $asset_info = %s ?>',$php));
 		
 	}
 	
@@ -480,7 +487,7 @@ class backpack
 			
 			$php = var_export($Wat,true);
 			
-			cache::write('valve_employees.php',sprintf('<?php global $VALVE_EMPLOYEES; $VALVE_EMPLOYEES = %s ?>',$php));
+			cache::writeFile('valve_employees.php',sprintf('<?php global $VALVE_EMPLOYEES; $VALVE_EMPLOYEES = %s ?>',$php));
 		}
 		catch( Exception $e )
 		{

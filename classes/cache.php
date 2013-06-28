@@ -95,6 +95,12 @@ class cache
 		self::Memcached()->set($key, $contents, time() + $age);
 	}
 
+	public static function writeFile($name, $contents)
+	{
+		global $settings;
+		file_put_contents($settings['cache']['folder'].$name,$contents);
+	}
+
 	public static function read($name)
 	{
 		global $settings;
