@@ -1,5 +1,5 @@
 <?php 
-ini_set('display_errors',1);
+ini_set('display_errors',0);
 require_once('includes/common.php');
 require_once('includes/settings.php');
 
@@ -172,7 +172,10 @@ serve($target_file);
 
 function imagewritefile($i, $file)
 {
-	$ext = end(explode(".",strtolower($file)));
+	$ext = strtolower($file);
+	$ext = explode('.',$ext);
+	$ext = end($ext);
+	
 	$i->setImageFormat($ext);
 	$i->setCompressionQuality(90);
 	$i->writeImage( $file );
@@ -235,7 +238,9 @@ function error($msg)
 }
 function serve($file)
 {
-	$ext = end(explode(".",strtolower($file)));
+	$ext = strtolower($file);
+	$ext = explode('.',$ext);
+	$ext = end($ext);
 	switch($ext)
 	{
 		case 'jpg':

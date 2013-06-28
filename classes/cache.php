@@ -108,6 +108,18 @@ class cache
 		return self::Memcached()->get($key);
 	}
 
+	public static function readFile($name)
+	{
+		global $settings;
+
+		$name = $settings['cache']['folder'].$name;
+
+		if( file_exists( $name ) )
+		{
+			return file_get_contents($name);
+		}
+	}
+
 	public static function inc($name)
 	{
 		global $settings;
