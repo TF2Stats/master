@@ -11,7 +11,7 @@ class cache
 	/**
 	 * @return Memcached
 	 */
-	public function Memcached()
+	public static function Memcached()
 	{
 		if( self::$__Memcached === NULL )
 		{
@@ -71,7 +71,7 @@ class cache
 		return false;
 	}
 
-	function put($url, $contents)
+	public static function put($url, $contents)
 	{
 		global $settings;
 		$key = sprintf("URL_".md5($url) );
