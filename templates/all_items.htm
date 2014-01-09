@@ -6,7 +6,7 @@
 				{loop $all_items.items}
 					<div class="item tooltip round5">
 						<a href="/item/{$name_url}/{$defindex}/">
-							<img src="/static/images/items/sized/xy78/{$image}" width="78" height="78" alt="{$name}" title="{$tooltip|htmlspecialchars}"/>
+							<img src="/static/images/items/sized/xy78/unknown.png" data-src="/static/images/items/sized/xy78/{$image}" data-src-retina="/static/images/items/sized/xy128/{$image}" width="78" height="78" alt="{$name}" title="{$tooltip|htmlspecialchars}"/>
 						</a>
 					</div>
 				{/loop}
