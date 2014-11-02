@@ -1,9 +1,9 @@
 				<div class="useravatar round3"> 
-							<a href="/player/{if $user.custom_url}{$user.custom_url}{else}{$user.id64}{/if}/"><img width="58" height="58" src="{$user.avatar_medium}" alt="Your avatar!"/></a>
+							<img width="58" height="58" src="{$user.avatar_medium}" alt="Your avatar!"/>
 					</div>
 					<div class="userinfo"> 
 						<div class="logout_button arealink"><a href="/logout/" class="main" alt="log out"></a></div>
-						<p>Hi, <a href="/player/{if $user.custom_url}{$user.custom_url}{else}{$user.id64}{/if}/">{$user.name|htmlspecialchars}</a></p>
+						<p>Hi, {$user.name|htmlspecialchars}</p>
 						<hr />
 						<ul> 
 							<li><a href="/usercp/">User CP</a></li>
