@@ -34,7 +34,7 @@ class login_view extends view
 		        	//var_dump($session);
 		        	$this->template='openid_success';
 		        	global $SITE;
-		        	$SITE['head'] .= '<meta http-equiv="refresh" content="3;url=http://tf2stats.net">';
+		        	$SITE['head'] .= '<meta http-equiv="refresh" content="3;url=//tf2stats.net">';
 		        } else
 		        	$this->template='openid_error';
 		    }
