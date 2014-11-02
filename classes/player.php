@@ -82,6 +82,9 @@ class player
 		} else
 			$this->info = $info;
 
+		// Overwrite the avatar url to be https
+		$this->info['avatar'] = str_replace('http://media.steampowered.com/', 'https://steamcdn-a.akamaihd.net/', $this->info['avatar']);
+
 		// Add full and small avatars
 		$this->info['avatar_full'] = str_replace('.jpg','_full.jpg',$this->info['avatar']);
 		$this->info['avatar_medium'] = str_replace('.jpg','_medium.jpg',$this->info['avatar']);
